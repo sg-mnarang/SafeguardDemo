@@ -15,5 +15,6 @@ jobs:
       run: |
            echo ${{ github.event.repository.name }}
            echo ::set-output name=NAME::$(echo ${{ github.event.repository.name }}| sed 's/mule4-//')
+           echo ${{ steps.project.outputs.NAME }}
 
 
