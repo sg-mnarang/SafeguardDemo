@@ -1,0 +1,19 @@
+name: Maven Build
+
+on:
+  release:
+    types: [published]
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+    - name: Workflow Version
+      run: echo "Version 1.2.0"
+    - name: Get Project Name
+      id: project
+      run: |
+           echo ${{ github.event.repository.name }}
+           echo ::set-output name=NAME::$(echo ${{ github.event.repository.name }}| sed 's/mule4-//')
+
+
