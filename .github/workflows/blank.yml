@@ -10,7 +10,8 @@ jobs:
   build:
     runs-on: ubuntu-latest
     steps:
-    
+    - name: Buildb
+      run: git diff-tree --no-commit-id --name-only -r ${{github.sha}}
     - uses: actions/checkout@v2
       with:
        fetch-depth: 1
