@@ -52,7 +52,7 @@ jobs:
         run: echo Hello, world!
         
       - name: Build Server
-        working-directory: ./mule-4-exp-api
+      #  working-directory: ./mule-4-exp-api
         run: |
          mvn -B package --file pom.xml
          artifactName1=$(ls target/*.jar | head -1)
