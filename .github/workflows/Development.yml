@@ -60,30 +60,20 @@ jobs:
          artifactName2=$(ls target/*.jar | head -1 | sed "s/.jar/.$commitHash.jar/g")
          mv $artifactName1 $artifactName2
          echo "Hellooooooooooooooooooooooooooooooooooooooooooooooooooooo"
-      - uses: actions/upload-artifact@master
+      - uses: actions/upload-artifact@v2
         with:
           name: artifacts
-          path: ./target/*.jar
-     
+          path: ./mule-4-exp-api/target/*.jar
+        
 
-  deploy:
-    needs: build
-    runs-on: ubuntu-latest
-    steps:    
-    - uses: actions/checkout@v2
-    - uses: actions/cache@v1
-      with:
-        path: ~/.m2/repository
-        key: ${{ runner.os }}-maven-${{ hashFiles('**/pom.xml') }}
-        restore-keys: |
-          ${{ runner.os }}-maven-
-    - uses: actions/download-artifact@master
-      with:
-        name: artifacts
-    - name: Deploy to CloudHub
-      env:
-        USERNAME: ${{ secrets.username }}
-        PASSWORD: ${{ secrets.password }}
-      run: |
-        artifactName=$(ls *.jar | head -1)
-        mvn mule:deploy -Dmule.artifact=$artifactName -Danypoint.userName="$USERNAME" -Danypoint.password="$PASSWORD"
+      - uses: actions/download-artifact@v2
+        with:
+         name: artifacts
+      - name: Deploy to CloudHub
+        working-directory: ./mule-4-exp-api
+        env:
+         USERNAME: ${{ secrets.username }}
+         PASSWORD: ${{ secrets.password }}
+        run: |
+          artifactName=$(ls ./mule-4-exp-api/target/*.jar | head -1)
+          mvn mule:deploy -Dmule.artifact=$artifactName -Danypoint.userName="$USERNAME" -Danypoint.password="$PASSWORD"
