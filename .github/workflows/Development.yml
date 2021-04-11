@@ -53,11 +53,8 @@ jobs:
         
       - name: Build Server
         working-directory: ./mule-4-exp-api
-        run: mvn -B package --file pom.xml
-           
-
-      - name: Stamp artifact file name with commit hash
         run: |
+         mvn -B package --file pom.xml
          artifactName1=$(ls target/*.jar | head -1)
          commitHash=$(git rev-parse --short "$GITHUB_SHA")
          artifactName2=$(ls target/*.jar | head -1 | sed "s/.jar/.$commitHash.jar/g")
