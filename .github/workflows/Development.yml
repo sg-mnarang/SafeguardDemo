@@ -54,7 +54,7 @@ jobs:
       - name: Build Server
         working-directory: ./mule-4-exp-api
         run: |
-         mvn -B package --file pom.xml
+         mvn package
          artifactName1=$(ls target/*.jar | head -1)
          commitHash=$(git rev-parse --short "$GITHUB_SHA")
          artifactName2=$(ls target/*.jar | head -1 | sed "s/.jar/.$commitHash.jar/g")
@@ -69,11 +69,12 @@ jobs:
       - uses: actions/download-artifact@v2
         with:
          name: artifacts
+         path: ./mule-4-exp-api/
       - name: Deploy to CloudHub
         working-directory: ./mule-4-exp-api
         env:
          USERNAME: ${{ secrets.username }}
          PASSWORD: ${{ secrets.password }}
         run: |
-          artifactName=$(ls ./mule-4-exp-api/target/*.jar | head -1)
+          artifactName=$(ls *.jar | head -1)
           mvn mule:deploy -Dmule.artifact=$artifactName -Danypoint.userName="$USERNAME" -Danypoint.password="$PASSWORD"
