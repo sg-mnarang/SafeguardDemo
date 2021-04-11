@@ -18,6 +18,8 @@ jobs:
   PreJobCheck:
     # The type of runner that the job will run on
     runs-on: ubuntu-latest
+    outputs:
+      ExperienceAPI: ${{steps.check.outputs.Experience}}
 
     # Steps represent a sequence of tasks that will be executed as part of the job
     steps:
@@ -38,6 +40,7 @@ jobs:
           echo '${{ steps.file_changes.outputs.files}}'
     
       - name: check
+        id: check
         env:
            Experience: ${{contains(steps.file_changes.outputs.files, 'exp')}}
            Process: ${{contains(steps.file_changes.outputs.files, 'prc')}}
@@ -46,6 +49,7 @@ jobs:
          echo " Change in Experience API $Experience"
          echo " Change in Process API $Process"
          echo " Change in Process API $System"
+ 
       
       # Runs a single command using the runners shell
       - name: Run a one-line script
@@ -54,7 +58,7 @@ jobs:
   ExperienceBuild:
 
      needs: [PreJobCheck]
-  #   if: {{needs.PreJobCheck.outputs.Experience == 'false'}}
+     if: ${{needs.PreJobCheck.outputs.ExperienceAPI=='false'}}
      runs-on: ubuntu-latest
       
      steps:
