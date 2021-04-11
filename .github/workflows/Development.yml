@@ -26,7 +26,7 @@ jobs:
        
  
       # Checks-out your repository under $GITHUB_WORKSPACE, so your job can access it
-      - uses: actions/checkout@v2
+      - uses: actions/checkout@v2@Development
 
       
       - id: file_changes
@@ -51,15 +51,9 @@ jobs:
       - name: Run a one-line script
         run: echo Hello, world!
         
-       
-      - name: Install git 
-        run: |
-         sudo apt-get install -y git
-         git --version
-         echo "Path is ... $PATH"
-         PATH=$PATH:$(which git)
-         echo "Path is ... $PATH"
-         
+      - name: Build Server
+        working-directory: ./mule-4-exp-api
+        run: mvn clean install
            
 
       - name: Run a multi-line script
