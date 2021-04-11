@@ -15,7 +15,7 @@ on:
 # A workflow run is made up of one or more jobs that can run sequentially or in parallel
 jobs:
   # This workflow contains a single job called "build"
-  build:
+  PreJobCheck:
     # The type of runner that the job will run on
     runs-on: ubuntu-latest
 
@@ -51,30 +51,38 @@ jobs:
       - name: Run a one-line script
         run: echo Hello, world!
         
-      - name: Build Server
-        working-directory: ./mule-4-exp-api
-        run: |
-         mvn package
-         artifactName1=$(ls target/*.jar | head -1)
-         commitHash=$(git rev-parse --short "$GITHUB_SHA")
-         artifactName2=$(ls target/*.jar | head -1 | sed "s/.jar/.$commitHash.jar/g")
-         mv $artifactName1 $artifactName2
-         echo "Hellooooooooooooooooooooooooooooooooooooooooooooooooooooo"
-      - uses: actions/upload-artifact@v2
-        with:
+  ExperienceBuild:
+     needs: [PreJobCheck]
+     if: {{needs.PreJobCheck.outputs.Experience == 'false'}}
+     runs-ons: ubuntu-latest
+      
+     steps:
+      
+  
+     - name: Build Server
+       working-directory: ./mule-4-exp-api
+       run: |
+        mvn package
+        artifactName1=$(ls target/*.jar | head -1)
+        commitHash=$(git rev-parse --short "$GITHUB_SHA")
+        artifactName2=$(ls target/*.jar | head -1 | sed "s/.jar/.$commitHash.jar/g")
+        mv $artifactName1 $artifactName2
+        echo "Hellooooooooooooooooooooooooooooooooooooooooooooooooooooo"
+     - uses: actions/upload-artifact@v2
+       with:
           name: artifacts
           path: ./mule-4-exp-api/target/*.jar
         
 
-      - uses: actions/download-artifact@v2
+     - uses: actions/download-artifact@v2
         with:
-         name: artifacts
-         path: ./mule-4-exp-api/
-      - name: Deploy to CloudHub
-        working-directory: ./mule-4-exp-api
-        env:
+       name: artifacts
+       path: ./mule-4-exp-api/
+     - name: Deploy to CloudHub
+       working-directory: ./mule-4-exp-api
+       env:
          USERNAME: ${{ secrets.username }}
          PASSWORD: ${{ secrets.password }}
-        run: |
+       run: |
           artifactName=$(ls *.jar | head -1)
           mvn mule:deploy -Dmule.artifact=$artifactName -Danypoint.userName="$USERNAME" -Danypoint.password="$PASSWORD"
