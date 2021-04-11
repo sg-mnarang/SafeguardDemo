@@ -63,8 +63,7 @@ jobs:
       - uses: actions/upload-artifact@v2
         with:
           name: artifacts
-          working-directory: ./mule-4-exp-api
-          path: target/*.jar
+          path: ./mule-4-exp-api/target/*.jar
      
 
   deploy:
