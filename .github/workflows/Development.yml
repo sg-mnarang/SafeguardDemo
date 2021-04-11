@@ -53,9 +53,11 @@ jobs:
         
   ExperienceBuild:
 
-   runs-ons: ubuntu-latest
+     needs: [PreJobCheck]
+  #   if: {{needs.PreJobCheck.outputs.Experience == 'false'}}
+     runs-on: ubuntu-latest
       
-   steps:
+     steps:
       
   
      - name: Build Server
@@ -74,9 +76,9 @@ jobs:
         
 
      - uses: actions/download-artifact@v2
-        with:
-       name: artifacts
-       path: ./mule-4-exp-api/
+       with:
+        name: artifacts
+        path: ./mule-4-exp-api/
      - name: Deploy to CloudHub
        working-directory: ./mule-4-exp-api
        env:
