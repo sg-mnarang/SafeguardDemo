@@ -42,7 +42,7 @@
 						<region>us-east-2</region>
 						<workers>1</workers>
 						<objectStoreV2>true</objectStoreV2>
-						<artifact>./mule-4-exp-api/target/</artifact>
+						<artifact>./target/*.jar</artifact>
 					</cloudHubDeployment>				
 				</configuration>
 			</plugin>
