@@ -58,7 +58,7 @@ jobs:
   ExperienceBuild:
 
      needs: [PreJobCheck]
-     if: ${{needs.PreJobCheck.outputs.ExperienceAPI=='true'}}
+   #  if: ${{needs.PreJobCheck.outputs.ExperienceAPI=='true'}}
      runs-on: ubuntu-latest
       
      steps:
@@ -73,6 +73,7 @@ jobs:
         artifactName2=$(ls target/*.jar | head -1 | sed "s/.jar/.$commitHash.jar/g")
         mv $artifactName1 $artifactName2
         echo "Hellooooooooooooooooooooooooooooooooooooooooooooooooooooo"
+        echo ${{needs.PreJobCheck.outputs.ExperienceAPI}}
      - uses: actions/upload-artifact@v2
        with:
           name: artifacts
