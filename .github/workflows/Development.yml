@@ -41,9 +41,11 @@ jobs:
         env:
            Experience: ${{contains(steps.file_changes.outputs.files, 'exp')}}
            Process: ${{contains(steps.file_changes.outputs.files, 'prc')}}
+           System: ${{contains(steps.file_changes.outputs.files, 'sys')}}
         run: |
          echo " Change in Experience API $Experience"
          echo " Change in Process API $Process"
+         echo " Change in Process API $System"
       
       # Runs a single command using the runners shell
       - name: Run a one-line script
