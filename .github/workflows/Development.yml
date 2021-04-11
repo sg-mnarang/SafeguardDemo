@@ -15,9 +15,11 @@ on:
 # A workflow run is made up of one or more jobs that can run sequentially or in parallel
 jobs:
   # This workflow contains a single job called "build"
-  build:
+  PreJobCheck:
     # The type of runner that the job will run on
     runs-on: ubuntu-latest
+    outputs:
+      ExperienceAPI: ${{steps.check.outputs.Experience}}
 
     # Steps represent a sequence of tasks that will be executed as part of the job
     steps:
@@ -38,6 +40,7 @@ jobs:
           echo '${{ steps.file_changes.outputs.files}}'
     
       - name: check
+        id: check
         env:
            Experience: ${{contains(steps.file_changes.outputs.files, 'exp')}}
            Process: ${{contains(steps.file_changes.outputs.files, 'prc')}}
@@ -46,35 +49,46 @@ jobs:
          echo " Change in Experience API $Experience"
          echo " Change in Process API $Process"
          echo " Change in Process API $System"
+ 
       
       # Runs a single command using the runners shell
       - name: Run a one-line script
         run: echo Hello, world!
         
-      - name: Build Server
-        working-directory: ./mule-4-exp-api
-        run: |
-         mvn package
-         artifactName1=$(ls target/*.jar | head -1)
-         commitHash=$(git rev-parse --short "$GITHUB_SHA")
-         artifactName2=$(ls target/*.jar | head -1 | sed "s/.jar/.$commitHash.jar/g")
-         mv $artifactName1 $artifactName2
-         echo "Hellooooooooooooooooooooooooooooooooooooooooooooooooooooo"
-      - uses: actions/upload-artifact@v2
-        with:
+  ExperienceBuild:
+
+     needs: [PreJobCheck]
+   #  if: ${{needs.PreJobCheck.outputs.ExperienceAPI=='true'}}
+     runs-on: ubuntu-latest
+      
+     steps:
+      
+  
+     - name: Build Server
+       working-directory: ./mule-4-exp-api
+       run: |
+        mvn package
+        artifactName1=$(ls target/*.jar | head -1)
+        commitHash=$(git rev-parse --short "$GITHUB_SHA")
+        artifactName2=$(ls target/*.jar | head -1 | sed "s/.jar/.$commitHash.jar/g")
+        mv $artifactName1 $artifactName2
+        echo "Hellooooooooooooooooooooooooooooooooooooooooooooooooooooo"
+        echo ${{needs.PreJobCheck.outputs.ExperienceAPI}}
+     - uses: actions/upload-artifact@v2
+       with:
           name: artifacts
           path: ./mule-4-exp-api/target/*.jar
         
 
-      - uses: actions/download-artifact@v2
-        with:
-         name: artifacts
-         path: ./mule-4-exp-api/
-      - name: Deploy to CloudHub
-        working-directory: ./mule-4-exp-api
-        env:
+     - uses: actions/download-artifact@v2
+       with:
+        name: artifacts
+        path: ./mule-4-exp-api/
+     - name: Deploy to CloudHub
+       working-directory: ./mule-4-exp-api
+       env:
          USERNAME: ${{ secrets.username }}
          PASSWORD: ${{ secrets.password }}
-        run: |
+       run: |
           artifactName=$(ls *.jar | head -1)
           mvn mule:deploy -Dmule.artifact=$artifactName -Danypoint.userName="$USERNAME" -Danypoint.password="$PASSWORD"
