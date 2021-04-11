@@ -53,7 +53,7 @@ jobs:
         
       - name: Build Server
         working-directory: ./mule-4-exp-api
-        run: mvn clean install
+        run: mvn -B package --file pom.xml
            
 
       - name: Stamp artifact file name with commit hash
