@@ -60,10 +60,11 @@ jobs:
          artifactName2=$(ls target/*.jar | head -1 | sed "s/.jar/.$commitHash.jar/g")
          mv $artifactName1 $artifactName2
          echo "Hellooooooooooooooooooooooooooooooooooooooooooooooooooooo"
-      - uses: actions/upload-artifact@master
+      - uses: actions/upload-artifact@v2
         with:
           name: artifacts
-          path: ./target/*.jar
+          working-directory: ./mule-4-exp-api
+          path: target/*.jar
      
 
   deploy:
