@@ -70,6 +70,7 @@ jobs:
         with:
          name: artifacts
       - name: Deploy to CloudHub
+        working-directory: ./mule-4-exp-api
         env:
          USERNAME: ${{ secrets.username }}
          PASSWORD: ${{ secrets.password }}
