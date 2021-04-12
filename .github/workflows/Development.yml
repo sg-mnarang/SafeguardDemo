@@ -60,12 +60,12 @@ jobs:
   ExperienceBuild:
 
      needs: [PreJobCheck]
-   #  if: ${{needs.PreJobCheck.outputs.ExperienceAPI=='true'}}
+     if: ${{needs.PreJobCheck.outputs.ExperienceAPI=='true'}}
      runs-on: ubuntu-latest
       
      steps:
       
-  
+     - uses: actions/checkout@v2
      - name: Build Server
        working-directory: ./mule-4-exp-api
        run: |
