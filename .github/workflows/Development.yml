@@ -19,7 +19,9 @@ jobs:
     # The type of runner that the job will run on
     runs-on: ubuntu-latest
     outputs:
-      ExperienceAPI: ${{steps.check.outputs.Experience}}
+      ExperienceAPI: ${{steps.check.outputs.ExpFlag}}
+      ProcessAPI: ${{steps.check.outputs.ProcessFlag}}
+      SystemAPI: ${{steps.check.outputs.SystemFlag}}
 
     # Steps represent a sequence of tasks that will be executed as part of the job
     steps:
@@ -49,21 +51,25 @@ jobs:
          echo " Change in Experience API $Experience"
          echo " Change in Process API $Process"
          echo " Change in Process API $System"
+         echo "::set-output name=ExpFlag::$Experience"
+         echo "::set-output name=ProcessFlag::$Process"
+         echo "::set-output name=SystemFlag::$System"
+         
  
       
       # Runs a single command using the runners shell
       - name: Run a one-line script
         run: echo Hello, world!
         
-  ExperienceBuild:
+  ExperienceBuild-Deploy:
 
      needs: [PreJobCheck]
-   #  if: ${{needs.PreJobCheck.outputs.ExperienceAPI=='true'}}
+     if: ${{needs.PreJobCheck.outputs.ExperienceAPI=='true'}}
      runs-on: ubuntu-latest
       
      steps:
       
-  
+     - uses: actions/checkout@v2
      - name: Build Server
        working-directory: ./mule-4-exp-api
        run: |
@@ -86,6 +92,82 @@ jobs:
         path: ./mule-4-exp-api/
      - name: Deploy to CloudHub
        working-directory: ./mule-4-exp-api
+       env:
+         USERNAME: ${{ secrets.username }}
+         PASSWORD: ${{ secrets.password }}
+       run: |
+          artifactName=$(ls *.jar | head -1)
+          mvn mule:deploy -Dmule.artifact=$artifactName -Danypoint.userName="$USERNAME" -Danypoint.password="$PASSWORD"
+          
+          
+  ProcessBuild-Deploy:
+
+     needs: [PreJobCheck]
+     if: ${{needs.PreJobCheck.outputs.ProcessAPI=='true'}}
+     runs-on: ubuntu-latest
+      
+     steps:
+      
+     - uses: actions/checkout@v2
+     - name: Build Server
+       working-directory: ./mule4-prc-api
+       run: |
+        mvn package
+        artifactName1=$(ls target/*.jar | head -1)
+        commitHash=$(git rev-parse --short "$GITHUB_SHA")
+        artifactName2=$(ls target/*.jar | head -1 | sed "s/.jar/.$commitHash.jar/g")
+        mv $artifactName1 $artifactName2
+ 
+     - uses: actions/upload-artifact@v2
+       with:
+          name: artifacts
+          path: ./mule4-prc-api/target/*.jar
+        
+
+     - uses: actions/download-artifact@v2
+       with:
+        name: artifacts
+        path: ./mule4-prc-api/
+     - name: Deploy to CloudHub
+       working-directory: ./mule4-prc-api
+       env:
+         USERNAME: ${{ secrets.username }}
+         PASSWORD: ${{ secrets.password }}
+       run: |
+          artifactName=$(ls *.jar | head -1)
+          mvn mule:deploy -Dmule.artifact=$artifactName -Danypoint.userName="$USERNAME" -Danypoint.password="$PASSWORD"
+          
+          
+  SystemBuild-Deploy:
+
+     needs: [PreJobCheck]
+     if: ${{needs.PreJobCheck.outputs.SystemAPI=='true'}}
+     runs-on: ubuntu-latest
+      
+     steps:
+      
+     - uses: actions/checkout@v2
+     - name: Build Server
+       working-directory: ./mule4-sys-api
+       run: |
+        mvn package
+        artifactName1=$(ls target/*.jar | head -1)
+        commitHash=$(git rev-parse --short "$GITHUB_SHA")
+        artifactName2=$(ls target/*.jar | head -1 | sed "s/.jar/.$commitHash.jar/g")
+        mv $artifactName1 $artifactName2
+ 
+     - uses: actions/upload-artifact@v2
+       with:
+          name: artifacts
+          path: ./mule4-sys-api/target/*.jar
+        
+
+     - uses: actions/download-artifact@v2
+       with:
+        name: artifacts
+        path: ./mule4-sys-api/
+     - name: Deploy to CloudHub
+       working-directory: ./mule4-sys-api
        env:
          USERNAME: ${{ secrets.username }}
          PASSWORD: ${{ secrets.password }}
