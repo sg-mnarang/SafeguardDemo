@@ -20,6 +20,7 @@ jobs:
     runs-on: ubuntu-latest
     outputs:
       ExperienceAPI: ${{steps.check.outputs.ExpFlag}}
+      ProcessAPI: ${{steps.check.outputs.ProcessFlag}}
 
     # Steps represent a sequence of tasks that will be executed as part of the job
     steps:
@@ -50,7 +51,8 @@ jobs:
          echo " Change in Process API $Process"
          echo " Change in Process API $System"
          echo "::set-output name=ExpFlag::$Experience"
-         echo ${{steps.check.outputs.ExpFlag}}
+         echo "::set-output name=ProcessFlag::$Process"
+         
  
       
       # Runs a single command using the runners shell
@@ -88,6 +90,44 @@ jobs:
         path: ./mule-4-exp-api/
      - name: Deploy to CloudHub
        working-directory: ./mule-4-exp-api
+       env:
+         USERNAME: ${{ secrets.username }}
+         PASSWORD: ${{ secrets.password }}
+       run: |
+          artifactName=$(ls *.jar | head -1)
+          mvn mule:deploy -Dmule.artifact=$artifactName -Danypoint.userName="$USERNAME" -Danypoint.password="$PASSWORD"
+          
+          
+  ProcessBuild-Deploy:
+
+     needs: [PreJobCheck]
+     if: ${{needs.PreJobCheck.outputs.ProcessAPI=='true'}}
+     runs-on: ubuntu-latest
+      
+     steps:
+      
+     - uses: actions/checkout@v2
+     - name: Build Server
+       working-directory: ./mule-4-prc-api
+       run: |
+        mvn package
+        artifactName1=$(ls target/*.jar | head -1)
+        commitHash=$(git rev-parse --short "$GITHUB_SHA")
+        artifactName2=$(ls target/*.jar | head -1 | sed "s/.jar/.$commitHash.jar/g")
+        mv $artifactName1 $artifactName2
+ 
+     - uses: actions/upload-artifact@v2
+       with:
+          name: artifacts
+          path: ./mule-4-prc-api/target/*.jar
+        
+
+     - uses: actions/download-artifact@v2
+       with:
+        name: artifacts
+        path: ./mule-4-prc-api/
+     - name: Deploy to CloudHub
+       working-directory: ./mule-4-prc-api
        env:
          USERNAME: ${{ secrets.username }}
          PASSWORD: ${{ secrets.password }}
