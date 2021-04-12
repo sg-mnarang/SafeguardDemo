@@ -108,7 +108,7 @@ jobs:
       
      - uses: actions/checkout@v2
      - name: Build Server
-       working-directory: ./mule-4-prc-api
+       working-directory: ./mule4-prc-api
        run: |
         mvn package
         artifactName1=$(ls target/*.jar | head -1)
@@ -119,15 +119,15 @@ jobs:
      - uses: actions/upload-artifact@v2
        with:
           name: artifacts
-          path: ./mule-4-prc-api/target/*.jar
+          path: ./mule4-prc-api/target/*.jar
         
 
      - uses: actions/download-artifact@v2
        with:
         name: artifacts
-        path: ./mule-4-prc-api/
+        path: ./mule4-prc-api/
      - name: Deploy to CloudHub
-       working-directory: ./mule-4-prc-api
+       working-directory: ./mule4-prc-api
        env:
          USERNAME: ${{ secrets.username }}
          PASSWORD: ${{ secrets.password }}
