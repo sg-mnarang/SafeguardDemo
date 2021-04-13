@@ -59,7 +59,7 @@ jobs:
  
 
         
-  ExperienceAPI-CICD:
+  ExperienceAPI-Job:
 
      needs: [PreJob-Requirement]
      if: ${{needs.PreJob-Requirement.outputs.ExperienceAPI=='true'}}
@@ -97,7 +97,7 @@ jobs:
             mvn mule:deploy -Dmule.artifact=$artifactName -Danypoint.userName="$USERNAME" -Danypoint.password="$PASSWORD" -Denvironment=Sandbox -Dappname=mule4-exp-api-DEV
           
           
-  ProcessAPI-CICD:
+  ProcessAPI-Job:
 
      needs: [PreJob-Requirement]
      if: ${{needs.PreJob-Requirement.outputs.ProcessAPI=='true'}}
@@ -135,7 +135,7 @@ jobs:
           mvn mule:deploy -Dmule.artifact=$artifactName -Danypoint.userName="$USERNAME" -Danypoint.password="$PASSWORD" -Denvironment=Sandbox -Dappname=mule4-prc-api-DEV
           
           
-  SystemAPI-CICD:
+  SystemAPI-Job:
 
      needs: [PreJob-Requirement]
      if: ${{needs.PreJob-Requirement.outputs.SystemAPI=='true'}}
