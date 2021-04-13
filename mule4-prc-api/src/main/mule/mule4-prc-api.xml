@@ -9,6 +9,6 @@ http://www.mulesoft.org/schema/mule/http http://www.mulesoft.org/schema/mule/htt
 	</http:listener-config>
 	<flow name="mule4-prc-apiFlow" doc:id="82c6bf4c-037c-4edc-b66f-83c831e89f5b" >
 		<http:listener doc:name="Listener" doc:id="a07541fd-62be-416e-950c-c4cf2aa9cb51" config-ref="HTTP_Listener_config" path="/bye"/>
-		<set-payload value="Bye" doc:name="Set Payload" doc:id="2284f0ea-dd3f-4ab2-926e-43bb46f256f4" />
+		<flow-ref doc:name="Flow Reference" doc:id="92847a58-89f2-4f3a-9479-1b018b581664" name="secondfileFlow"/>
 	</flow>
 </mule>
