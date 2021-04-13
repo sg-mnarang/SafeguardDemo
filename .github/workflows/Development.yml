@@ -15,7 +15,7 @@ on:
 # A workflow run is made up of one or more jobs that can run sequentially or in parallel
 jobs:
   # This workflow contains a single job called "build"
-  PreJobCheck:
+  PreJob-Requirement:
     # The type of runner that the job will run on
     runs-on: ubuntu-latest
     outputs:
@@ -37,11 +37,11 @@ jobs:
         uses: trilom/file-changes-action@v1.2.3
         with:
          output: ' '
-      - name: list
+      - name: list_of_files
         run: |
           echo '${{ steps.file_changes.outputs.files}}'
     
-      - name: check
+      - name: check_for_APIchange
         id: check
         env:
            Experience: ${{contains(steps.file_changes.outputs.files, 'exp')}}
@@ -56,15 +56,12 @@ jobs:
          echo "::set-output name=SystemFlag::$System"
          
  
-      
-      # Runs a single command using the runners shell
-      - name: Run a one-line script
-        run: echo Hello, world!
-        
-  ExperienceBuild-Deploy:
 
-     needs: [PreJobCheck]
-     if: ${{needs.PreJobCheck.outputs.ExperienceAPI=='true'}}
+        
+  ExperienceAPI-Build/Deploy:
+
+     needs: [PreJob-Requirement]
+     if: ${{needs.PreJob-Requirement.outputs.ExperienceAPI=='true'}}
      runs-on: ubuntu-latest
       
      steps:
@@ -99,10 +96,10 @@ jobs:
           mvn mule:deploy -Dmule.artifact=$artifactName -Danypoint.userName="$USERNAME" -Danypoint.password="$PASSWORD"
           
           
-  ProcessBuild-Deploy:
+  ProcessAPI-Build/Deploy:
 
-     needs: [PreJobCheck]
-     if: ${{needs.PreJobCheck.outputs.ProcessAPI=='true'}}
+     needs: [PreJob-Requirement]
+     if: ${{needs.PreJob-Requirement.outputs.ProcessAPI=='true'}}
      runs-on: ubuntu-latest
       
      steps:
@@ -137,10 +134,10 @@ jobs:
           mvn mule:deploy  -Dmule.environment=Sandbox -Dmule.artifact=$artifactName -Danypoint.userName="$USERNAME" -Danypoint.password="$PASSWORD"
           
           
-  SystemBuild-Deploy:
+  SystemAPI-Build/Deploy:
 
-     needs: [PreJobCheck]
-     if: ${{needs.PreJobCheck.outputs.SystemAPI=='true'}}
+     needs: [PreJob-Requirement]
+     if: ${{needs.PreJob-Requirement.outputs.SystemAPI=='true'}}
      runs-on: ubuntu-latest
       
      steps:
