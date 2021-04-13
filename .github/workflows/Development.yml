@@ -30,10 +30,11 @@ jobs:
        
  
       # Checks-out your repository under $GITHUB_WORKSPACE, so your job can access it
-      - uses: actions/checkout@v2
+      - name: checkout_of_repository
+        uses: actions/checkout@v2
 
-      
-      - id: file_changes
+      - name: file_changes
+        id: file_changes
         uses: trilom/file-changes-action@v1.2.3
         with:
          output: ' '
@@ -65,9 +66,9 @@ jobs:
      runs-on: ubuntu-latest
       
      steps:
-      
-     - uses: actions/checkout@v2
-     - name: Build Server
+     - name: checkout_of_repository
+       uses: actions/checkout@v2
+     - name: build server
        working-directory: ./mule-4-exp-api
        run: |
         mvn package
@@ -75,14 +76,14 @@ jobs:
         commitHash=$(git rev-parse --short "$GITHUB_SHA")
         artifactName2=$(ls target/*.jar | head -1 | sed "s/.jar/.$commitHash.jar/g")
         mv $artifactName1 $artifactName2
-
-     - uses: actions/upload-artifact@v2
+     - name: upload artifact
+       uses: actions/upload-artifact@v2
        with:
           name: artifacts
           path: ./mule-4-exp-api/target/*.jar
         
-
-     - uses: actions/download-artifact@v2
+     - name: download artifact
+       uses: actions/download-artifact@v2
        with:
         name: artifacts
         path: ./mule-4-exp-api/
@@ -103,9 +104,9 @@ jobs:
      runs-on: ubuntu-latest
       
      steps:
-      
-     - uses: actions/checkout@v2
-     - name: Build Server
+     - name: checkout_of_repository
+       uses: actions/checkout@v2
+     - name: build server
        working-directory: ./mule4-prc-api
        run: |
         mvn package
@@ -113,14 +114,14 @@ jobs:
         commitHash=$(git rev-parse --short "$GITHUB_SHA")
         artifactName2=$(ls target/*.jar | head -1 | sed "s/.jar/.$commitHash.jar/g")
         mv $artifactName1 $artifactName2
- 
-     - uses: actions/upload-artifact@v2
+     - name: upload artifact
+       uses: actions/upload-artifact@v2
        with:
           name: artifacts
           path: ./mule4-prc-api/target/*.jar
         
-
-     - uses: actions/download-artifact@v2
+     - name: download artifact
+       uses: actions/download-artifact@v2
        with:
         name: artifacts
         path: ./mule4-prc-api/
@@ -141,9 +142,9 @@ jobs:
      runs-on: ubuntu-latest
       
      steps:
-      
-     - uses: actions/checkout@v2
-     - name: Build Server
+     - name: checkout_of_repository
+       uses: actions/checkout@v2
+     - name: build server
        working-directory: ./mule4-sys-api
        run: |
         mvn package
@@ -151,14 +152,14 @@ jobs:
         commitHash=$(git rev-parse --short "$GITHUB_SHA")
         artifactName2=$(ls target/*.jar | head -1 | sed "s/.jar/.$commitHash.jar/g")
         mv $artifactName1 $artifactName2
- 
-     - uses: actions/upload-artifact@v2
+     - name: upload artifact
+       uses: actions/upload-artifact@v2
        with:
           name: artifacts
           path: ./mule4-sys-api/target/*.jar
         
-
-     - uses: actions/download-artifact@v2
+     - name: download artifact
+       uses: actions/download-artifact@v2
        with:
         name: artifacts
         path: ./mule4-sys-api/
