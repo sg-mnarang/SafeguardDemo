@@ -36,8 +36,8 @@
 						<muleVersion>4.3.0</muleVersion>
 						<username>${anypoint.userName}</username>
 						<password>${anypoint.password}</password>
-						<applicationName>Experience-mehak</applicationName>
-						<environment>Sandbox</environment>
+						<applicationName>sgi-${appname}</applicationName>
+						<environment>${environment}</environment>
 						<workerType>MICRO</workerType>
 						<region>us-east-2</region>
 						<workers>1</workers>
