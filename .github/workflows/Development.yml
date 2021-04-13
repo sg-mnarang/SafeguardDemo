@@ -15,7 +15,7 @@ on:
 # A workflow run is made up of one or more jobs that can run sequentially or in parallel
 jobs:
   # This workflow contains a single job called "build"
-  PreJobCheck:
+  PreJob-Requirement:
     # The type of runner that the job will run on
     runs-on: ubuntu-latest
     outputs:
@@ -37,11 +37,11 @@ jobs:
         uses: trilom/file-changes-action@v1.2.3
         with:
          output: ' '
-      - name: list
+      - name: list_of_files
         run: |
           echo '${{ steps.file_changes.outputs.files}}'
     
-      - name: check
+      - name: check_for_APIchange
         id: check
         env:
            Experience: ${{contains(steps.file_changes.outputs.files, 'exp')}}
@@ -50,21 +50,18 @@ jobs:
         run: |
          echo " Change in Experience API $Experience"
          echo " Change in Process API $Process"
-         echo " Change in Process API $System"
+         echo " Change in System API $System"
          echo "::set-output name=ExpFlag::$Experience"
          echo "::set-output name=ProcessFlag::$Process"
          echo "::set-output name=SystemFlag::$System"
          
  
-      
-      # Runs a single command using the runners shell
-      - name: Run a one-line script
-        run: echo Hello, world!
-        
-  ExperienceBuild-Deploy:
 
-     needs: [PreJobCheck]
-     if: ${{needs.PreJobCheck.outputs.ExperienceAPI=='true'}}
+        
+  ExperienceAPI-CICD:
+
+     needs: [PreJob-Requirement]
+     if: ${{needs.PreJob-Requirement.outputs.ExperienceAPI=='true'}}
      runs-on: ubuntu-latest
       
      steps:
@@ -78,8 +75,7 @@ jobs:
         commitHash=$(git rev-parse --short "$GITHUB_SHA")
         artifactName2=$(ls target/*.jar | head -1 | sed "s/.jar/.$commitHash.jar/g")
         mv $artifactName1 $artifactName2
-        echo "Hellooooooooooooooooooooooooooooooooooooooooooooooooooooo"
-        echo ${{needs.PreJobCheck.outputs.ExperienceAPI}}
+
      - uses: actions/upload-artifact@v2
        with:
           name: artifacts
@@ -97,13 +93,13 @@ jobs:
          PASSWORD: ${{ secrets.password }}
        run: |
           artifactName=$(ls *.jar | head -1)
-          mvn mule:deploy -Dmule.artifact=$artifactName -Danypoint.userName="$USERNAME" -Danypoint.password="$PASSWORD"
+          mvn mule:deploy -Dmule.artifact=$artifactName -Danypoint.userName="$USERNAME" -Danypoint.password="$PASSWORD" 
           
           
-  ProcessBuild-Deploy:
+  ProcessAPI-CICD:
 
-     needs: [PreJobCheck]
-     if: ${{needs.PreJobCheck.outputs.ProcessAPI=='true'}}
+     needs: [PreJob-Requirement]
+     if: ${{needs.PreJob-Requirement.outputs.ProcessAPI=='true'}}
      runs-on: ubuntu-latest
       
      steps:
@@ -135,13 +131,13 @@ jobs:
          PASSWORD: ${{ secrets.password }}
        run: |
           artifactName=$(ls *.jar | head -1)
-          mvn mule:deploy -Dmule.artifact=$artifactName -Danypoint.userName="$USERNAME" -Danypoint.password="$PASSWORD"
+          mvn mule:deploy -Dmule.artifact=$artifactName -Danypoint.userName="$USERNAME" -Danypoint.password="$PASSWORD" -Denvironment=Sandbox
           
           
-  SystemBuild-Deploy:
+  SystemAPI-CICD:
 
-     needs: [PreJobCheck]
-     if: ${{needs.PreJobCheck.outputs.SystemAPI=='true'}}
+     needs: [PreJob-Requirement]
+     if: ${{needs.PreJob-Requirement.outputs.SystemAPI=='true'}}
      runs-on: ubuntu-latest
       
      steps:
