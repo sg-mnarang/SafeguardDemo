@@ -43,8 +43,8 @@
 						<workers>1</workers>
 						<objectStoreV2>true</objectStoreV2>
 						<artifact>./target/*.jar</artifact>
-					</cloudHubDeployment>				
-				</configuration>
+					</cloudHubDeployment>	
+					</configuration>	
 			</plugin>
 		</plugins>
 	</build>
