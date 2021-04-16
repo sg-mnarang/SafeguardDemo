@@ -33,12 +33,7 @@ jobs:
       - name: checkout_of_repository
         uses: actions/checkout@v2
         
-      - uses: actions/cache@v1
-        with:
-         path: ~/.m2/repository
-         key: ${{ runner.os }}-maven-${{ hashFiles('**/pom.xml') }}
-         restore-keys: |
-          ${{ runner.os }}-maven-
+ 
 
       - name: file_changes
         id: file_changes
@@ -75,6 +70,14 @@ jobs:
      steps:
      - name: checkout_of_repository
        uses: actions/checkout@v2
+       
+     - uses: actions/cache@v1
+       with:
+        path: ~/.m2/repository
+        key: ${{ runner.os }}-maven-${{ hashFiles('**/pom.xml') }}
+        restore-keys: |
+          ${{ runner.os }}-maven-
+          
      - name: build server
        working-directory: ./mule-4-exp-api
        run: |
