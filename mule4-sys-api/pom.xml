@@ -57,7 +57,7 @@
 		 <dependency>
             <groupId>org.mule.modules</groupId>
             <artifactId>mule-module-cxf</artifactId>
-            <version>${mule.version}</version>
+            <version>4.3.0</version>
             <scope>provided</scope>
         </dependency>
     </dependencies>
