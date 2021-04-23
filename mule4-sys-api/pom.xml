@@ -71,7 +71,7 @@
             <layout>default</layout>
         </repository>
     <repository>
-            <id>mulesoft-releases</id>
+            <id>mulesoft-releases-snapshot</id>
             <name>MuleSoft Releases Repository</name>
             <url>http://repo.spring.io/snapshot/</url>
             <layout>default</layout>
