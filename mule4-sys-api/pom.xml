@@ -77,14 +77,9 @@
             <layout>default</layout>
             <url>https://repository.mulesoft.org/releases/</url>
             <snapshots>
-                <enabled>false</enabled>
+                <enabled>true</enabled>
             </snapshots>
         </pluginRepository>
-	   
-  <pluginRepository>
-    <id>mule-public</id>
-    <url>https://repository.mulesoft.org/nexus/content/repositories/releases</url>
-  </pluginRepository>
 
     </pluginRepositories>
 
