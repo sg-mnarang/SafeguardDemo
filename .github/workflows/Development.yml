@@ -161,7 +161,7 @@ jobs:
      - name: build server
        working-directory: ./mule4-sys-api
        run: |
-        mvn -Dsettings.security=SafeguardDemo/setting_back.xml -e -X clean package
+        mvn clean package
         artifactName1=$(ls target/*.jar | head -1)
         commitHash=$(git rev-parse --short "$GITHUB_SHA")
         artifactName2=$(ls target/*.jar | head -1 | sed "s/.jar/.$commitHash.jar/g")
