@@ -1,0 +1,466 @@
+<definitions xmlns="http://schemas.xmlsoap.org/wsdl/" xmlns:tns="http://mobile-uat.safe-guardproducts.com/services/soap/mobileservices" xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:soap-enc="http://schemas.xmlsoap.org/soap/encoding/" xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/" name="Services_Soap_Mobileservices" targetNamespace="http://mobile-uat.safe-guardproducts.com/services/soap/mobileservices">
+<types>
+<xsd:schema targetNamespace="http://mobile-uat.safe-guardproducts.com/services/soap/mobileservices">
+<xsd:complexType name="Sg_Service_MobileInspection_InspectionResult">
+<xsd:all>
+<xsd:element name="faultCode" type="xsd:string"/>
+<xsd:element name="faultString" type="xsd:string"/>
+<xsd:element name="data" type="xsd:anyType"/>
+</xsd:all>
+</xsd:complexType>
+<xsd:complexType name="Sg_Vo_Mobile_ScanDocumentDetail">
+<xsd:all>
+<xsd:element name="scanDocumentCaption" type="xsd:string"/>
+<xsd:element name="scanDocumentName" type="xsd:string"/>
+</xsd:all>
+</xsd:complexType>
+<xsd:complexType name="ArrayOfSg_vo_mobile_scandocumentdetail">
+<xsd:sequence>
+<xsd:element name="item" type="tns:Sg_Vo_Mobile_ScanDocumentDetail" minOccurs="0" maxOccurs="unbounded"/>
+</xsd:sequence>
+</xsd:complexType>
+<xsd:complexType name="Sg_Vo_Mobile_ScanDocumentSubmissionRequest">
+<xsd:all>
+<xsd:element name="deviceSystemId" type="xsd:string"/>
+<xsd:element name="claimId" type="xsd:string"/>
+<xsd:element name="userId" type="xsd:string"/>
+<xsd:element name="seqId" type="xsd:string"/>
+<xsd:element name="languageCode" type="xsd:string"/>
+<xsd:element name="documentType" type="xsd:string"/>
+<xsd:element name="email" type="xsd:string"/>
+<xsd:element name="claimReimbursementAmount" type="xsd:string"/>
+<xsd:element name="scanDocumentDetail" type="tns:ArrayOfSg_vo_mobile_scandocumentdetail"/>
+</xsd:all>
+</xsd:complexType>
+<xsd:complexType name="Sg_Vo_MobileInspection_RegisterExternalUserRequest">
+<xsd:all>
+<xsd:element name="externalUserName" type="xsd:string"/>
+<xsd:element name="firstName" type="xsd:string"/>
+<xsd:element name="lastName" type="xsd:string"/>
+<xsd:element name="contactNumber" type="xsd:string"/>
+<xsd:element name="email" type="xsd:string"/>
+<xsd:element name="dealer" type="xsd:string"/>
+<xsd:element name="company" type="xsd:string"/>
+<xsd:element name="phoneType" type="xsd:string"/>
+<xsd:element name="externalUserId" type="xsd:string"/>
+<xsd:element name="deviceSystemId" type="xsd:string"/>
+<xsd:element name="languageCode" type="xsd:string"/>
+<xsd:element name="uniqueId" type="xsd:string"/>
+<xsd:element name="appId" type="xsd:string"/>
+<xsd:element name="isLoginByPassword" type="xsd:string"/>
+</xsd:all>
+</xsd:complexType>
+<xsd:complexType name="Sg_Vo_MobileInspection_SaveUserSessionRequest">
+<xsd:all>
+<xsd:element name="userId" type="xsd:string"/>
+<xsd:element name="appId" type="xsd:string"/>
+<xsd:element name="isLoginByPassword" type="xsd:string"/>
+<xsd:element name="source" type="xsd:string"/>
+</xsd:all>
+</xsd:complexType>
+</xsd:schema>
+</types>
+<portType name="Services_Soap_MobileservicesPort">
+<operation name="getOperationStyle">
+<documentation>getOperationStyle</documentation>
+<input message="tns:getOperationStyleIn"/>
+</operation>
+<operation name="authenticateUser">
+<documentation>Authenticate the user</documentation>
+<input message="tns:authenticateUserIn"/>
+<output message="tns:authenticateUserOut"/>
+</operation>
+<operation name="validateApp">
+<documentation>Validate App</documentation>
+<input message="tns:validateAppIn"/>
+<output message="tns:validateAppOut"/>
+</operation>
+<operation name="getProductCoverage">
+<documentation>Get product coverage</documentation>
+<input message="tns:getProductCoverageIn"/>
+<output message="tns:getProductCoverageOut"/>
+</operation>
+<operation name="getAvailableQuestionsByUser">
+<documentation>Return a list of questions for the given user id</documentation>
+<input message="tns:getAvailableQuestionsByUserIn"/>
+<output message="tns:getAvailableQuestionsByUserOut"/>
+</operation>
+<operation name="getAdditionalPicturesInspectionList">
+<documentation>Return a list of inspections that require additional pictures.</documentation>
+<input message="tns:getAdditionalPicturesInspectionListIn"/>
+<output message="tns:getAdditionalPicturesInspectionListOut"/>
+</operation>
+<operation name="getSearchResult">
+<documentation>Get product coverage</documentation>
+<input message="tns:getSearchResultIn"/>
+<output message="tns:getSearchResultOut"/>
+</operation>
+<operation name="submitScanDocumentRequest">
+<documentation>Insert the Scan Document request to database</documentation>
+<input message="tns:submitScanDocumentRequestIn"/>
+<output message="tns:submitScanDocumentRequestOut"/>
+</operation>
+<operation name="getRecentClaims">
+<documentation>Get Claim information for User</documentation>
+<input message="tns:getRecentClaimsIn"/>
+<output message="tns:getRecentClaimsOut"/>
+</operation>
+<operation name="getClaimPhotoScript">
+<documentation>Get Script by claim or contract</documentation>
+<input message="tns:getClaimPhotoScriptIn"/>
+<output message="tns:getClaimPhotoScriptOut"/>
+</operation>
+<operation name="authenticateService">
+<documentation>Authenticate the request</documentation>
+<input message="tns:authenticateServiceIn"/>
+<output message="tns:authenticateServiceOut"/>
+</operation>
+<operation name="getClaimStatusInfo">
+<documentation>Get product coverage</documentation>
+<input message="tns:getClaimStatusInfoIn"/>
+<output message="tns:getClaimStatusInfoOut"/>
+</operation>
+<operation name="getClaimDocumentList">
+<documentation>Get document List</documentation>
+<input message="tns:getClaimDocumentListIn"/>
+<output message="tns:getClaimDocumentListOut"/>
+</operation>
+<operation name="addMobileLog">
+<documentation>Store the failed web service log of mobile</documentation>
+<input message="tns:addMobileLogIn"/>
+<output message="tns:addMobileLogOut"/>
+</operation>
+<operation name="getDeviceSystemId">
+<documentation>Get device system ID</documentation>
+<input message="tns:getDeviceSystemIdIn"/>
+<output message="tns:getDeviceSystemIdOut"/>
+</operation>
+<operation name="registerExternalUser">
+<documentation>Register external user</documentation>
+<input message="tns:registerExternalUserIn"/>
+<output message="tns:registerExternalUserOut"/>
+</operation>
+<operation name="saveUserSession">
+<documentation>Save User Session</documentation>
+<input message="tns:saveUserSessionIn"/>
+<output message="tns:saveUserSessionOut"/>
+</operation>
+</portType>
+<binding name="Services_Soap_MobileservicesBinding" type="tns:Services_Soap_MobileservicesPort">
+<soap:binding style="rpc" transport="http://schemas.xmlsoap.org/soap/http"/>
+<operation name="getOperationStyle">
+<soap:operation soapAction="http://mobile-uat.safe-guardproducts.com/services/soap/mobileservices#getOperationStyle"/>
+<input>
+<soap:body use="literal" namespace="https://portal.safe-guardproducts.com/services/soap/mobileservices"/>
+</input>
+<output>
+<soap:body use="literal" namespace="https://portal.safe-guardproducts.com/services/soap/mobileservices"/>
+</output>
+</operation>
+<operation name="authenticateUser">
+<soap:operation soapAction="http://mobile-uat.safe-guardproducts.com/services/soap/mobileservices#authenticateUser"/>
+<input>
+<soap:body use="literal" namespace="https://portal.safe-guardproducts.com/services/soap/mobileservices"/>
+</input>
+<output>
+<soap:body use="literal" namespace="https://portal.safe-guardproducts.com/services/soap/mobileservices"/>
+</output>
+</operation>
+<operation name="validateApp">
+<soap:operation soapAction="http://mobile-uat.safe-guardproducts.com/services/soap/mobileservices#validateApp"/>
+<input>
+<soap:body use="literal" namespace="https://portal.safe-guardproducts.com/services/soap/mobileservices"/>
+</input>
+<output>
+<soap:body use="literal" namespace="https://portal.safe-guardproducts.com/services/soap/mobileservices"/>
+</output>
+</operation>
+<operation name="getProductCoverage">
+<soap:operation soapAction="http://mobile-uat.safe-guardproducts.com/services/soap/mobileservices#getProductCoverage"/>
+<input>
+<soap:body use="literal" namespace="https://portal.safe-guardproducts.com/services/soap/mobileservices"/>
+</input>
+<output>
+<soap:body use="literal" namespace="https://portal.safe-guardproducts.com/services/soap/mobileservices"/>
+</output>
+</operation>
+<operation name="getAvailableQuestionsByUser">
+<soap:operation soapAction="http://mobile-uat.safe-guardproducts.com/services/soap/mobileservices#getAvailableQuestionsByUser"/>
+<input>
+<soap:body use="literal" namespace="https://portal.safe-guardproducts.com/services/soap/mobileservices"/>
+</input>
+<output>
+<soap:body use="literal" namespace="https://portal.safe-guardproducts.com/services/soap/mobileservices"/>
+</output>
+</operation>
+<operation name="getAdditionalPicturesInspectionList">
+<soap:operation soapAction="http://mobile-uat.safe-guardproducts.com/services/soap/mobileservices#getAdditionalPicturesInspectionList"/>
+<input>
+<soap:body use="literal" namespace="https://portal.safe-guardproducts.com/services/soap/mobileservices"/>
+</input>
+<output>
+<soap:body use="literal" namespace="https://portal.safe-guardproducts.com/services/soap/mobileservices"/>
+</output>
+</operation>
+<operation name="getSearchResult">
+<soap:operation soapAction="http://mobile-uat.safe-guardproducts.com/services/soap/mobileservices#getSearchResult"/>
+<input>
+<soap:body use="literal" namespace="https://portal.safe-guardproducts.com/services/soap/mobileservices"/>
+</input>
+<output>
+<soap:body use="literal" namespace="https://portal.safe-guardproducts.com/services/soap/mobileservices"/>
+</output>
+</operation>
+<operation name="submitScanDocumentRequest">
+<soap:operation soapAction="http://mobile-uat.safe-guardproducts.com/services/soap/mobileservices#submitScanDocumentRequest"/>
+<input>
+<soap:body use="literal" namespace="https://portal.safe-guardproducts.com/services/soap/mobileservices"/>
+</input>
+<output>
+<soap:body use="literal" namespace="https://portal.safe-guardproducts.com/services/soap/mobileservices"/>
+</output>
+</operation>
+<operation name="getRecentClaims">
+<soap:operation soapAction="http://mobile-uat.safe-guardproducts.com/services/soap/mobileservices#getRecentClaims"/>
+<input>
+<soap:body use="literal" namespace="https://portal.safe-guardproducts.com/services/soap/mobileservices"/>
+</input>
+<output>
+<soap:body use="literal" namespace="https://portal.safe-guardproducts.com/services/soap/mobileservices"/>
+</output>
+</operation>
+<operation name="getClaimPhotoScript">
+<soap:operation soapAction="http://mobile-uat.safe-guardproducts.com/services/soap/mobileservices#getClaimPhotoScript"/>
+<input>
+<soap:body use="literal" namespace="https://portal.safe-guardproducts.com/services/soap/mobileservices"/>
+</input>
+<output>
+<soap:body use="literal" namespace="https://portal.safe-guardproducts.com/services/soap/mobileservices"/>
+</output>
+</operation>
+<operation name="authenticateService">
+<soap:operation soapAction="http://mobile-uat.safe-guardproducts.com/services/soap/mobileservices#authenticateService"/>
+<input>
+<soap:body use="literal" namespace="https://portal.safe-guardproducts.com/services/soap/mobileservices"/>
+</input>
+<output>
+<soap:body use="literal" namespace="https://portal.safe-guardproducts.com/services/soap/mobileservices"/>
+</output>
+</operation>
+<operation name="getClaimStatusInfo">
+<soap:operation soapAction="http://mobile-uat.safe-guardproducts.com/services/soap/mobileservices#getClaimStatusInfo"/>
+<input>
+<soap:body use="literal" namespace="https://portal.safe-guardproducts.com/services/soap/mobileservices"/>
+</input>
+<output>
+<soap:body use="literal" namespace="https://portal.safe-guardproducts.com/services/soap/mobileservices"/>
+</output>
+</operation>
+<operation name="getClaimDocumentList">
+<soap:operation soapAction="http://mobile-uat.safe-guardproducts.com/services/soap/mobileservices#getClaimDocumentList"/>
+<input>
+<soap:body use="literal" namespace="https://portal.safe-guardproducts.com/services/soap/mobileservices"/>
+</input>
+<output>
+<soap:body use="literal" namespace="https://portal.safe-guardproducts.com/services/soap/mobileservices"/>
+</output>
+</operation>
+<operation name="addMobileLog">
+<soap:operation soapAction="http://mobile-uat.safe-guardproducts.com/services/soap/mobileservices#addMobileLog"/>
+<input>
+<soap:body use="literal" namespace="https://portal.safe-guardproducts.com/services/soap/mobileservices"/>
+</input>
+<output>
+<soap:body use="literal" namespace="https://portal.safe-guardproducts.com/services/soap/mobileservices"/>
+</output>
+</operation>
+<operation name="getDeviceSystemId">
+<soap:operation soapAction="http://mobile-uat.safe-guardproducts.com/services/soap/mobileservices#getDeviceSystemId"/>
+<input>
+<soap:body use="literal" namespace="https://portal.safe-guardproducts.com/services/soap/mobileservices"/>
+</input>
+<output>
+<soap:body use="literal" namespace="https://portal.safe-guardproducts.com/services/soap/mobileservices"/>
+</output>
+</operation>
+<operation name="registerExternalUser">
+<soap:operation soapAction="http://mobile-uat.safe-guardproducts.com/services/soap/mobileservices#registerExternalUser"/>
+<input>
+<soap:body use="literal" namespace="https://portal.safe-guardproducts.com/services/soap/mobileservices"/>
+</input>
+<output>
+<soap:body use="literal" namespace="https://portal.safe-guardproducts.com/services/soap/mobileservices"/>
+</output>
+</operation>
+<operation name="saveUserSession">
+<soap:operation soapAction="http://mobile-uat.safe-guardproducts.com/services/soap/mobileservices#saveUserSession"/>
+<input>
+<soap:body use="literal" namespace="https://portal.safe-guardproducts.com/services/soap/mobileservices"/>
+</input>
+<output>
+<soap:body use="literal" namespace="https://portal.safe-guardproducts.com/services/soap/mobileservices"/>
+</output>
+</operation>
+</binding>
+<service name="Services_Soap_MobileservicesService">
+<port name="Services_Soap_MobileservicesPort" binding="tns:Services_Soap_MobileservicesBinding">
+<soap:address location="http://mobile-uat.safe-guardproducts.com/services/soap/mobileservices"/>
+</port>
+</service>
+<message name="getOperationStyleIn"/>
+<message name="authenticateUserIn">
+<part name="userName" type="xsd:string"/>
+<part name="password" type="xsd:string"/>
+<part name="device_system_id" type="xsd:string"/>
+<part name="language_code" type="xsd:string"/>
+<part name="uniqueId" type="xsd:string"/>
+</message>
+<message name="authenticateUserOut">
+<part name="return" type="tns:Sg_Service_MobileInspection_InspectionResult"/>
+</message>
+<message name="validateAppIn">
+<part name="appId" type="xsd:string"/>
+<part name="appVersion" type="xsd:string"/>
+<part name="deviceMake" type="xsd:string"/>
+<part name="deviceModel" type="xsd:string"/>
+<part name="deviceModelVersion" type="xsd:string"/>
+<part name="osVersion" type="xsd:string"/>
+<part name="uniqueId" type="xsd:string"/>
+<part name="languageCode" type="xsd:string"/>
+</message>
+<message name="validateAppOut">
+<part name="return" type="tns:Sg_Service_MobileInspection_InspectionResult"/>
+</message>
+<message name="getProductCoverageIn">
+<part name="search_type" type="xsd:string"/>
+<part name="search_value" type="xsd:string"/>
+<part name="record_per_page" type="xsd:anyType"/>
+<part name="records_offset" type="xsd:anyType"/>
+<part name="user_id" type="xsd:anyType"/>
+</message>
+<message name="getProductCoverageOut">
+<part name="return" type="tns:Sg_Service_MobileInspection_InspectionResult"/>
+</message>
+<message name="getAvailableQuestionsByUserIn">
+<part name="user_id" type="xsd:string"/>
+<part name="inspection_catalog_ids" type="xsd:string"/>
+<part name="device_system_id" type="xsd:string"/>
+<part name="language_code" type="xsd:string"/>
+</message>
+<message name="getAvailableQuestionsByUserOut">
+<part name="return" type="tns:Sg_Service_MobileInspection_InspectionResult"/>
+</message>
+<message name="getAdditionalPicturesInspectionListIn">
+<part name="search_type" type="xsd:string"/>
+<part name="search_value" type="xsd:string"/>
+<part name="user_id" type="xsd:string"/>
+<part name="device_system_id" type="xsd:string"/>
+<part name="language_code" type="xsd:string"/>
+</message>
+<message name="getAdditionalPicturesInspectionListOut">
+<part name="return" type="tns:Sg_Service_MobileInspection_InspectionResult"/>
+</message>
+<message name="getSearchResultIn">
+<part name="search_type" type="xsd:string"/>
+<part name="search_value" type="xsd:string"/>
+<part name="user_id" type="xsd:string"/>
+<part name="device_system_id" type="xsd:string"/>
+<part name="language_code" type="xsd:string"/>
+<part name="app_id" type="xsd:string"/>
+<part name="dealer_id" type="xsd:string"/>
+</message>
+<message name="getSearchResultOut">
+<part name="return" type="tns:Sg_Service_MobileInspection_InspectionResult"/>
+</message>
+<message name="submitScanDocumentRequestIn">
+<part name="scanDocRequest" type="tns:Sg_Vo_Mobile_ScanDocumentSubmissionRequest"/>
+</message>
+<message name="submitScanDocumentRequestOut">
+<part name="return" type="tns:Sg_Service_MobileInspection_InspectionResult"/>
+</message>
+<message name="getRecentClaimsIn">
+<part name="user_id" type="xsd:string"/>
+<part name="device_system_id" type="xsd:string"/>
+<part name="language_code" type="xsd:string"/>
+</message>
+<message name="getRecentClaimsOut">
+<part name="return" type="tns:Sg_Service_MobileInspection_InspectionResult"/>
+</message>
+<message name="getClaimPhotoScriptIn">
+<part name="userId" type="xsd:string"/>
+<part name="systemDeviceId" type="xsd:string"/>
+<part name="claimId" type="xsd:string"/>
+<part name="claimRuleRequestId" type="xsd:string"/>
+<part name="language_code" type="xsd:string"/>
+</message>
+<message name="getClaimPhotoScriptOut">
+<part name="return" type="tns:Sg_Service_MobileInspection_InspectionResult"/>
+</message>
+<message name="authenticateServiceIn">
+<part name="user_name" type="xsd:string"/>
+<part name="access_key" type="xsd:string"/>
+</message>
+<message name="authenticateServiceOut">
+<part name="return" type="xsd:string"/>
+</message>
+<message name="getClaimStatusInfoIn">
+<part name="search_type" type="xsd:string"/>
+<part name="search_value" type="xsd:string"/>
+<part name="customer_last_name" type="xsd:string"/>
+<part name="user_id" type="xsd:string"/>
+<part name="device_system_id" type="xsd:string"/>
+<part name="language_code" type="xsd:string"/>
+<part name="app_id" type="xsd:string"/>
+</message>
+<message name="getClaimStatusInfoOut">
+<part name="return" type="tns:Sg_Service_MobileInspection_InspectionResult"/>
+</message>
+<message name="getClaimDocumentListIn">
+<part name="claim_number" type="xsd:string"/>
+<part name="user_id" type="xsd:string"/>
+<part name="device_system_id" type="xsd:string"/>
+<part name="language_code" type="xsd:string"/>
+<part name="app_id" type="xsd:string"/>
+</message>
+<message name="getClaimDocumentListOut">
+<part name="return" type="tns:Sg_Service_MobileInspection_InspectionResult"/>
+</message>
+<message name="addMobileLogIn">
+<part name="deviceSystemId" type="xsd:string"/>
+<part name="claimId" type="xsd:string"/>
+<part name="contractNumber" type="xsd:string"/>
+<part name="userId" type="xsd:string"/>
+<part name="seqId" type="xsd:string"/>
+<part name="languageCode" type="xsd:string"/>
+<part name="webServiceName" type="xsd:string"/>
+<part name="errorLog" type="xsd:string"/>
+</message>
+<message name="addMobileLogOut">
+<part name="return" type="tns:Sg_Service_MobileInspection_InspectionResult"/>
+</message>
+<message name="getDeviceSystemIdIn">
+<part name="appId" type="xsd:string"/>
+<part name="appVersion" type="xsd:string"/>
+<part name="deviceMake" type="xsd:string"/>
+<part name="deviceModel" type="xsd:string"/>
+<part name="deviceModelVersion" type="xsd:string"/>
+<part name="osVersion" type="xsd:string"/>
+<part name="uniqueId" type="xsd:string"/>
+<part name="languageCode" type="xsd:string"/>
+</message>
+<message name="getDeviceSystemIdOut">
+<part name="return" type="tns:Sg_Service_MobileInspection_InspectionResult"/>
+</message>
+<message name="registerExternalUserIn">
+<part name="registerExternalUserRequest" type="tns:Sg_Vo_MobileInspection_RegisterExternalUserRequest"/>
+</message>
+<message name="registerExternalUserOut">
+<part name="return" type="tns:Sg_Service_MobileInspection_InspectionResult"/>
+</message>
+<message name="saveUserSessionIn">
+<part name="saveUserSessionRequest" type="tns:Sg_Vo_MobileInspection_SaveUserSessionRequest"/>
+</message>
+<message name="saveUserSessionOut">
+<part name="return" type="tns:Sg_Service_MobileInspection_InspectionResult"/>
+</message>
+</definitions>
