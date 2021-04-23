@@ -1,9 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
 	<modelVersion>4.0.0</modelVersion>
 
-	<groupId>com.mycompanyz</groupId>
+	<groupId>com.mycompany</groupId>
 	<artifactId>mule4-sys-api</artifactId>
     <version>1.0.0-SNAPSHOT</version>
     <packaging>mule-application</packaging>
@@ -30,23 +29,8 @@
 				<artifactId>mule-maven-plugin</artifactId>
 				<version>${mule.maven.plugin.version}</version>
 				<extensions>true</extensions>
-			
-					   <configuration>
-					<cloudHubDeployment>
-						<uri>https://anypoint.mulesoft.com</uri>
-						<muleVersion>4.3.0</muleVersion>
-						<username>${anypoint.userName}</username>
-						<password>${anypoint.password}</password>
-						<applicationName>sgi-${appname}</applicationName>
-						<environment>${environment}</environment>
-						<workerType>MICRO</workerType>
-						<region>us-east-2</region>
-						<workers>1</workers>
-						<objectStoreV2>true</objectStoreV2>
-						<artifact>./target/*.jar</artifact>
-					</cloudHubDeployment>	
-					</configuration>	
-				
+				<configuration>
+				</configuration>
 			</plugin>
 		</plugins>
 	</build>
@@ -64,7 +48,13 @@
             <version>1.2.0</version>
             <classifier>mule-plugin</classifier>
         </dependency>
-	</dependencies>
+		<dependency>
+            <groupId>org.mule.modules</groupId>
+            <artifactId>mule-soapkit-module</artifactId>
+            <version>1.2.8</version>
+            <classifier>mule-plugin</classifier>
+        </dependency>
+    </dependencies>
 
 	<repositories>
           <repository>
