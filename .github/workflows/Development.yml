@@ -162,7 +162,7 @@ jobs:
        working-directory: ./mule4-sys-api
        run: |
        
-        mvn clean package -DremoteRepositories=https://repo.spring.io/snhot/ -Dartifact=rg.mule.modules:mule-soapkit-cxf:pom:1.2.6 :sources:jar
+        mvn clean package -DremoteRepositories=https://repo.spring.io/snhot/ -Dartifact=org.mule.modules:mule-soapkit-cxf:pom:1.2.6 :sources:jar
         artifactName1=$(ls target/*.jar | head -1)
         commitHash=$(git rev-parse --short "$GITHUB_SHA")
         artifactName2=$(ls target/*.jar | head -1 | sed "s/.jar/.$commitHash.jar/g")
