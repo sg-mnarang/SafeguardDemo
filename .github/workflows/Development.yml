@@ -163,7 +163,7 @@ jobs:
        run: |
        
 
-        mvn clean package -DremoteRepositories=https://repo.spring.io/snhot/ -Dartifact=org.mule.modules:mule-soapkit-cxf:pom:1.2.6
+        mvn clean package -DremoteRepositories=http://repo.spring.io/snapshot/ -Dartifact=org.mule.modules:mule-soapkit-cxf:pom:1.2.6
 
         artifactName1=$(ls target/*.jar | head -1)
         commitHash=$(git rev-parse --short "$GITHUB_SHA")
